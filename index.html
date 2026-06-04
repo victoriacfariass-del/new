@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Planner Mensal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span class="logo">✦ Planner</span>
+      </div>
+
+      <!-- Painel do dia selecionado -->
+      <div class="day-panel" id="dayPanel">
+        <div class="day-panel-title" id="dayPanelTitle">Selecione um dia</div>
+
+        <!-- Tarefas -->
+        <section class="panel-section">
+          <h3>Tarefas</h3>
+          <div class="task-input-row">
+            <input type="text" id="taskInput" placeholder="Nova tarefa..." />
+            <button id="addTaskBtn">+</button>
+          </div>
+          <ul class="task-list" id="taskList"></ul>
+        </section>
+
+        <!-- Hábitos -->
+        <section class="panel-section">
+          <h3>Hábitos</h3>
+          <ul class="habit-check-list" id="habitCheckList"></ul>
+        </section>
+      </div>
+
+      <!-- Gerenciar hábitos -->
+      <div class="habits-manager">
+        <h3>Gerenciar Hábitos</h3>
+        <div class="task-input-row">
+          <input type="text" id="habitInput" placeholder="Novo hábito..." />
+          <button id="addHabitBtn">+</button>
+        </div>
+        <ul class="habit-list" id="habitList"></ul>
+      </div>
+    </aside>
+
+    <!-- Conteúdo principal -->
+    <main class="main">
+      <header class="calendar-header">
+        <button class="nav-btn" id="prevMonth">&#8249;</button>
+        <h2 id="monthTitle"></h2>
+        <button class="nav-btn" id="nextMonth">&#8250;</button>
+      </header>
+
+      <div class="weekdays">
+        <span>Dom</span><span>Seg</span><span>Ter</span>
+        <span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
+      </div>
+
+      <div class="calendar-grid" id="calendarGrid"></div>
+
+      <!-- Legenda de hábitos -->
+      <div class="habit-legend" id="habitLegend"></div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
