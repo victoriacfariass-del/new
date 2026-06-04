@@ -44,11 +44,22 @@ function seedGoals() {
   };
 
   let changed = false;
-  for (const [key, tasks] of Object.entries(GOALS)) {
-    if (!state.tasks[key] || state.tasks[key].length === 0) {
-      state.tasks[key] = tasks;
-      changed = true;
-    }
+  for (const [key, goalTasks] of Object.entries(GOALS)) {
+    const existing = state.tasks[key] || [];
+
+    // Migra tarefas antigas que não têm categoria
+    existing.forEach(t => { if (!t.cat) { t.cat = 'pessoal'; changed = true; } });
+
+    // Adiciona metas que ainda não existem (compara pelo texto)
+    const existingTexts = existing.map(t => t.text);
+    goalTasks.forEach(goal => {
+      if (!existingTexts.includes(goal.text)) {
+        existing.push(goal);
+        changed = true;
+      }
+    });
+
+    state.tasks[key] = existing;
   }
   if (changed) saveState();
 }
