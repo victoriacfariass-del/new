@@ -5,9 +5,53 @@ const HABIT_COLORS = [
 ];
 
 let state = loadState();
+seedGoals();
 let currentYear = new Date().getFullYear();
 let currentMonth = new Date().getMonth();
 let selectedDate = null;
+
+function seedGoals() {
+  const GOALS = {
+    '2026-06-01': [
+      { text: '📋 Atualizar LinkedIn — cargo, conquistas, foto e banner', done: false },
+      { text: '📚 Escolher o livro do mês — separar e começar a leitura', done: false },
+      { text: '🏋️ Treinar 2x em casa — 20-30 min cada sessão', done: false },
+      { text: '🥗 Registrar o que está comendo — anotar refeições para a nutri', done: false },
+      { text: '😴 Definir horário de dormir — testar um horário fixo essa semana', done: false },
+    ],
+    '2026-06-08': [
+      { text: '📋 Escrever 1 post no LinkedIn — opinião e aprendizado da área', done: false },
+      { text: '💰 Listar todos os gastos fixos — assinaturas, aluguel, transporte', done: false },
+      { text: '🏋️ Treinar 2x em casa — manter a sequência da semana passada', done: false },
+      { text: '🥗 Consulta com a nutri — trazer registro da semana 1', done: false },
+      { text: '🎓 Pesquisar 1 curso curto — branding ou estratégia (até 4h)', done: false },
+    ],
+    '2026-06-15': [
+      { text: '📋 Conectar com 5 pessoas no LinkedIn — profissionais de marketing e mídia', done: false },
+      { text: '📚 Ler pelo menos 20 páginas — do livro escolhido na semana 1', done: false },
+      { text: '🏋️ Treinar 2x em casa — não quebra a sequência', done: false },
+      { text: '💰 Separar uma reserva mínima — o hábito é o que importa', done: false },
+      { text: '🥗 Seguir o plano da nutri — primeira semana com o plano em mãos', done: false },
+      { text: '😴 Avaliar qualidade do sono — o horário fixo está funcionando?', done: false },
+    ],
+    '2026-06-22': [
+      { text: '🎓 Iniciar o curso escolhido — completar pelo menos 50% do conteúdo', done: false },
+      { text: '📚 Finalizar ou avançar no livro — meta: pelo menos metade lida', done: false },
+      { text: '🏋️ Ir à academia no fim de semana — retomar a academia nos dias livres', done: false },
+      { text: '📋 Estudar 1 case de social media — uma marca que admira', done: false },
+      { text: '🥗 Avaliar a primeira semana de dieta — o que foi fácil? o que ajustar?', done: false },
+    ],
+  };
+
+  let changed = false;
+  for (const [key, tasks] of Object.entries(GOALS)) {
+    if (!state.tasks[key] || state.tasks[key].length === 0) {
+      state.tasks[key] = tasks;
+      changed = true;
+    }
+  }
+  if (changed) saveState();
+}
 
 function loadState() {
   try {
