@@ -81,6 +81,52 @@ body {
   margin-bottom: 10px;
 }
 
+/* ── Category labels ── */
+.cat-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.cat-header .cat-label { margin-bottom: 0; }
+
+.cat-label { display: inline-block; }
+
+.cat-trabalho {
+  color: #60a5fa !important;
+  border-left: 2px solid #60a5fa;
+  padding-left: 6px;
+}
+
+.cat-pessoal {
+  color: #f472b6 !important;
+  border-left: 2px solid #f472b6;
+  padding-left: 6px;
+}
+
+/* ── Star badge (sidebar) ── */
+.star-badge {
+  font-size: 1rem;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+}
+
+.star-badge.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@keyframes pop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.5); }
+  100% { transform: scale(1); }
+}
+
+.star-badge.pop { animation: pop 0.4s ease; }
+
 /* ── Input rows ── */
 .task-input-row {
   display: flex;
@@ -389,6 +435,18 @@ body {
   background: var(--surface2);
   color: var(--text-muted);
   border-left: 2px solid var(--accent);
+}
+
+.cell-task-chip.chip-trabalho { border-left-color: #60a5fa; }
+.cell-task-chip.chip-pessoal  { border-left-color: #f472b6; }
+
+/* ── Star in calendar cell ── */
+.cell-star {
+  position: absolute;
+  top: 5px;
+  right: 6px;
+  font-size: 0.85rem;
+  line-height: 1;
 }
 
 .cell-task-chip.done {

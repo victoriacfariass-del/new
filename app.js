@@ -13,33 +13,33 @@ let selectedDate = null;
 function seedGoals() {
   const GOALS = {
     '2026-06-01': [
-      { text: '📋 Atualizar LinkedIn — cargo, conquistas, foto e banner', done: false },
-      { text: '📚 Escolher o livro do mês — separar e começar a leitura', done: false },
-      { text: '🏋️ Treinar 2x em casa — 20-30 min cada sessão', done: false },
-      { text: '🥗 Registrar o que está comendo — anotar refeições para a nutri', done: false },
-      { text: '😴 Definir horário de dormir — testar um horário fixo essa semana', done: false },
+      { text: '📋 Atualizar LinkedIn — cargo, conquistas, foto e banner', done: false, cat: 'pessoal' },
+      { text: '📚 Escolher o livro do mês — separar e começar a leitura', done: false, cat: 'pessoal' },
+      { text: '🏋️ Treinar 2x em casa — 20-30 min cada sessão', done: false, cat: 'pessoal' },
+      { text: '🥗 Registrar o que está comendo — anotar refeições para a nutri', done: false, cat: 'pessoal' },
+      { text: '😴 Definir horário de dormir — testar um horário fixo essa semana', done: false, cat: 'pessoal' },
     ],
     '2026-06-08': [
-      { text: '📋 Escrever 1 post no LinkedIn — opinião e aprendizado da área', done: false },
-      { text: '💰 Listar todos os gastos fixos — assinaturas, aluguel, transporte', done: false },
-      { text: '🏋️ Treinar 2x em casa — manter a sequência da semana passada', done: false },
-      { text: '🥗 Consulta com a nutri — trazer registro da semana 1', done: false },
-      { text: '🎓 Pesquisar 1 curso curto — branding ou estratégia (até 4h)', done: false },
+      { text: '📋 Escrever 1 post no LinkedIn — opinião e aprendizado da área', done: false, cat: 'pessoal' },
+      { text: '💰 Listar todos os gastos fixos — assinaturas, aluguel, transporte', done: false, cat: 'pessoal' },
+      { text: '🏋️ Treinar 2x em casa — manter a sequência da semana passada', done: false, cat: 'pessoal' },
+      { text: '🥗 Consulta com a nutri — trazer registro da semana 1', done: false, cat: 'pessoal' },
+      { text: '🎓 Pesquisar 1 curso curto — branding ou estratégia (até 4h)', done: false, cat: 'pessoal' },
     ],
     '2026-06-15': [
-      { text: '📋 Conectar com 5 pessoas no LinkedIn — profissionais de marketing e mídia', done: false },
-      { text: '📚 Ler pelo menos 20 páginas — do livro escolhido na semana 1', done: false },
-      { text: '🏋️ Treinar 2x em casa — não quebra a sequência', done: false },
-      { text: '💰 Separar uma reserva mínima — o hábito é o que importa', done: false },
-      { text: '🥗 Seguir o plano da nutri — primeira semana com o plano em mãos', done: false },
-      { text: '😴 Avaliar qualidade do sono — o horário fixo está funcionando?', done: false },
+      { text: '📋 Conectar com 5 pessoas no LinkedIn — profissionais de marketing e mídia', done: false, cat: 'pessoal' },
+      { text: '📚 Ler pelo menos 20 páginas — do livro escolhido na semana 1', done: false, cat: 'pessoal' },
+      { text: '🏋️ Treinar 2x em casa — não quebra a sequência', done: false, cat: 'pessoal' },
+      { text: '💰 Separar uma reserva mínima — o hábito é o que importa', done: false, cat: 'pessoal' },
+      { text: '🥗 Seguir o plano da nutri — primeira semana com o plano em mãos', done: false, cat: 'pessoal' },
+      { text: '😴 Avaliar qualidade do sono — o horário fixo está funcionando?', done: false, cat: 'pessoal' },
     ],
     '2026-06-22': [
-      { text: '🎓 Iniciar o curso escolhido — completar pelo menos 50% do conteúdo', done: false },
-      { text: '📚 Finalizar ou avançar no livro — meta: pelo menos metade lida', done: false },
-      { text: '🏋️ Ir à academia no fim de semana — retomar a academia nos dias livres', done: false },
-      { text: '📋 Estudar 1 case de social media — uma marca que admira', done: false },
-      { text: '🥗 Avaliar a primeira semana de dieta — o que foi fácil? o que ajustar?', done: false },
+      { text: '🎓 Iniciar o curso escolhido — completar pelo menos 50% do conteúdo', done: false, cat: 'pessoal' },
+      { text: '📚 Finalizar ou avançar no livro — meta: pelo menos metade lida', done: false, cat: 'pessoal' },
+      { text: '🏋️ Ir à academia no fim de semana — retomar a academia nos dias livres', done: false, cat: 'pessoal' },
+      { text: '📋 Estudar 1 case de social media — uma marca que admira', done: false, cat: 'pessoal' },
+      { text: '🥗 Avaliar a primeira semana de dieta — o que foi fácil? o que ajustar?', done: false, cat: 'pessoal' },
     ],
   };
 
@@ -82,6 +82,23 @@ function monthTitle(y, m) {
   return new Date(y, m, 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
 }
 
+/* ── Star logic ── */
+function allPessoalDone(key) {
+  const tasks = (state.tasks[key] || []).filter(t => t.cat === 'pessoal');
+  return tasks.length > 0 && tasks.every(t => t.done);
+}
+
+function updateStarBadge(key) {
+  const badge = document.getElementById('starBadge');
+  if (!badge) return;
+  const earned = allPessoalDone(key);
+  badge.classList.toggle('visible', earned);
+  if (earned) {
+    badge.classList.add('pop');
+    setTimeout(() => badge.classList.remove('pop'), 400);
+  }
+}
+
 /* ── Calendar ── */
 function renderCalendar() {
   document.getElementById('monthTitle').textContent = monthTitle(currentYear, currentMonth);
@@ -94,7 +111,6 @@ function renderCalendar() {
   const daysInPrev = new Date(currentYear, currentMonth, 0).getDate();
   const today = todayKey();
 
-  // Fill grid: prev month tail + current + next month head
   const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
 
   for (let i = 0; i < totalCells; i++) {
@@ -127,7 +143,16 @@ function renderCalendar() {
     num.textContent = day;
     cell.appendChild(num);
 
-    // Task chips
+    // Star for days where all pessoal tasks are done
+    if (!otherMonth && allPessoalDone(key)) {
+      const star = document.createElement('span');
+      star.className = 'cell-star';
+      star.textContent = '⭐';
+      star.title = 'Todas as metas de evolução pessoal concluídas!';
+      cell.appendChild(star);
+    }
+
+    // Task chips — show trabalho and pessoal with color indicator
     const tasks = state.tasks[key] || [];
     if (tasks.length) {
       const chipBox = document.createElement('div');
@@ -135,7 +160,7 @@ function renderCalendar() {
       const visible = tasks.slice(0, 2);
       visible.forEach(t => {
         const chip = document.createElement('div');
-        chip.className = 'cell-task-chip' + (t.done ? ' done' : '');
+        chip.className = 'cell-task-chip' + (t.done ? ' done' : '') + (t.cat === 'trabalho' ? ' chip-trabalho' : ' chip-pessoal');
         chip.textContent = t.text;
         chipBox.appendChild(chip);
       });
@@ -182,42 +207,50 @@ function selectDay(y, m, d) {
 function renderDayPanel(y, m, d) {
   const key = dateKey(y, m, d);
   document.getElementById('dayPanelTitle').textContent = formatTitle(y, m, d);
-  renderTaskList(key);
+  renderTaskList(key, 'trabalho');
+  renderTaskList(key, 'pessoal');
   renderHabitCheckList(key);
+  updateStarBadge(key);
 }
 
 /* ── Tasks ── */
-function renderTaskList(key) {
-  const list = document.getElementById('taskList');
+function renderTaskList(key, cat) {
+  const listId = cat === 'trabalho' ? 'taskListTrabalho' : 'taskListPessoal';
+  const list = document.getElementById(listId);
   list.innerHTML = '';
-  const tasks = state.tasks[key] || [];
-  tasks.forEach((task, idx) => {
+  const tasks = (state.tasks[key] || []).filter(t => t.cat === cat);
+  const allTasks = state.tasks[key] || [];
+
+  tasks.forEach(task => {
+    const idx = allTasks.indexOf(task);
     const li = document.createElement('li');
     li.className = 'task-item' + (task.done ? ' done' : '');
 
     const cb = document.createElement('input');
     cb.type = 'checkbox';
     cb.checked = task.done;
-    cb.id = `task-${idx}`;
+    cb.id = `task-${cat}-${idx}`;
     cb.addEventListener('change', () => {
-      state.tasks[key][idx].done = cb.checked;
+      allTasks[idx].done = cb.checked;
       saveState();
-      renderTaskList(key);
+      renderTaskList(key, cat);
       renderCalendar();
+      updateStarBadge(key);
     });
 
     const label = document.createElement('label');
-    label.htmlFor = `task-${idx}`;
+    label.htmlFor = `task-${cat}-${idx}`;
     label.textContent = task.text;
 
     const del = document.createElement('button');
     del.className = 'del-btn';
     del.textContent = '×';
     del.addEventListener('click', () => {
-      state.tasks[key].splice(idx, 1);
+      allTasks.splice(idx, 1);
       saveState();
-      renderTaskList(key);
+      renderTaskList(key, cat);
       renderCalendar();
+      updateStarBadge(key);
     });
 
     li.appendChild(cb);
@@ -227,17 +260,19 @@ function renderTaskList(key) {
   });
 }
 
-function addTask() {
+function addTask(cat) {
   if (!selectedDate) return;
-  const input = document.getElementById('taskInput');
+  const inputId = cat === 'trabalho' ? 'taskInputTrabalho' : 'taskInputPessoal';
+  const input = document.getElementById(inputId);
   const text = input.value.trim();
   if (!text) return;
   if (!state.tasks[selectedDate]) state.tasks[selectedDate] = [];
-  state.tasks[selectedDate].push({ text, done: false });
+  state.tasks[selectedDate].push({ text, done: false, cat });
   input.value = '';
   saveState();
-  renderTaskList(selectedDate);
+  renderTaskList(selectedDate, cat);
   renderCalendar();
+  updateStarBadge(selectedDate);
 }
 
 /* ── Habits manager ── */
@@ -262,10 +297,7 @@ function renderHabitList() {
       state.habits.splice(idx, 1);
       saveState();
       renderHabitList();
-      if (selectedDate) {
-        const [y, m, d] = selectedDate.split('-').map(Number);
-        renderHabitCheckList(selectedDate);
-      }
+      if (selectedDate) renderHabitCheckList(selectedDate);
       renderCalendar();
     });
 
@@ -354,7 +386,7 @@ function renderHabitLegend() {
   });
 }
 
-/* ── Navigation ── */
+/* ── Event listeners ── */
 document.getElementById('prevMonth').addEventListener('click', () => {
   currentMonth--;
   if (currentMonth < 0) { currentMonth = 11; currentYear--; }
@@ -367,9 +399,14 @@ document.getElementById('nextMonth').addEventListener('click', () => {
   renderCalendar();
 });
 
-document.getElementById('addTaskBtn').addEventListener('click', addTask);
-document.getElementById('taskInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') addTask();
+document.querySelector('[data-cat="trabalho"]').addEventListener('click', () => addTask('trabalho'));
+document.getElementById('taskInputTrabalho').addEventListener('keydown', e => {
+  if (e.key === 'Enter') addTask('trabalho');
+});
+
+document.querySelector('[data-cat="pessoal"]').addEventListener('click', () => addTask('pessoal'));
+document.getElementById('taskInputPessoal').addEventListener('keydown', e => {
+  if (e.key === 'Enter') addTask('pessoal');
 });
 
 document.getElementById('addHabitBtn').addEventListener('click', addHabit);
@@ -381,6 +418,5 @@ document.getElementById('habitInput').addEventListener('keydown', e => {
 renderCalendar();
 renderHabitList();
 
-// Auto-select today
 const t = new Date();
 selectDay(t.getFullYear(), t.getMonth(), t.getDate());

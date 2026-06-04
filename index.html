@@ -18,14 +18,27 @@
       <div class="day-panel" id="dayPanel">
         <div class="day-panel-title" id="dayPanelTitle">Selecione um dia</div>
 
-        <!-- Tarefas -->
+        <!-- Trabalho -->
         <section class="panel-section">
-          <h3>Tarefas</h3>
+          <h3 class="cat-label cat-trabalho">Trabalho</h3>
           <div class="task-input-row">
-            <input type="text" id="taskInput" placeholder="Nova tarefa..." />
-            <button id="addTaskBtn">+</button>
+            <input type="text" id="taskInputTrabalho" placeholder="Nova tarefa de trabalho..." />
+            <button class="add-btn-trabalho" data-cat="trabalho">+</button>
           </div>
-          <ul class="task-list" id="taskList"></ul>
+          <ul class="task-list" id="taskListTrabalho"></ul>
+        </section>
+
+        <!-- Evolução Pessoal -->
+        <section class="panel-section">
+          <div class="cat-header">
+            <h3 class="cat-label cat-pessoal">Evolução Pessoal</h3>
+            <span class="star-badge" id="starBadge" title="Todas as tarefas concluídas!">⭐</span>
+          </div>
+          <div class="task-input-row">
+            <input type="text" id="taskInputPessoal" placeholder="Nova tarefa pessoal..." />
+            <button class="add-btn-pessoal" data-cat="pessoal">+</button>
+          </div>
+          <ul class="task-list" id="taskListPessoal"></ul>
         </section>
 
         <!-- Hábitos -->
